@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'groovy'
+}
+
+version = '0.0.1'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'org.codehaus.groovy:groovy-all:2.4.1'
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.9'
+}
