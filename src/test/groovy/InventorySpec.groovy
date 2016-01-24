@@ -7,7 +7,7 @@ class InventorySpec extends Specification{
     def setup() {
         inventory = new Inventory()
     }
-    
+
     def "instance is created for Inventory"() {
         expect:
             inventory != null
