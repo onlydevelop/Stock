@@ -4,8 +4,8 @@ public class Inventory {
     private static final int ITEM_COST_IN_STORE_A = 50;
     private static final int ITEM_COST_IN_STORE_B = 100;
 
-    private static int itemLeftInStoreA = INITIAL_ITEM_COUNT;
-    private static int itemLeftInStoreB = INITIAL_ITEM_COUNT;
+    private int itemLeftInStoreA = INITIAL_ITEM_COUNT;
+    private int itemLeftInStoreB = INITIAL_ITEM_COUNT;
 
     String placeOrder(String orderData) {
 
