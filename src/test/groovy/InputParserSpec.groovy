@@ -2,7 +2,7 @@ import spock.lang.Specification
 
 class InputParserSpec extends Specification{
 
-    def parseInput() {
+    def "parse the input returning an Order object"() {
 
         setup:
         InputParser inputParser = new InputParser()
