@@ -19,5 +19,6 @@ class InventorySpec extends Specification{
         where:
             input       | result
             "B:5"       | "500:95:100"
+            "A:30"      | "1500:100:70"
     }
 }
