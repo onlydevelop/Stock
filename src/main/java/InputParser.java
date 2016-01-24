@@ -1,6 +1,7 @@
 public class InputParser {
 
     Order parse(String inputData) {
-        return new Order("B", 5);
+        String[] inputTokens = inputData.split(":");
+        return new Order(inputTokens[0], Integer.parseInt(inputTokens[1]));
     }
 }
