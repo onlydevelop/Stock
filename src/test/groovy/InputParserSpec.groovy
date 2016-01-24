@@ -2,10 +2,13 @@ import spock.lang.Specification
 
 class InputParserSpec extends Specification{
 
-    def "parse the input returning an Order object"() {
+    InputParser inputParser;
 
-        setup:
-        InputParser inputParser = new InputParser()
+    def setup() {
+        inputParser = new InputParser()
+    }
+
+    def "parse the input returning an Order object"() {
 
         when:
         Order order = inputParser.parse("B:5")
@@ -17,9 +20,6 @@ class InputParserSpec extends Specification{
 
     def "throw exception if the input is null"() {
 
-        setup:
-        InputParser inputParser = new InputParser()
-
         when:
         Order order = inputParser.parse(null)
 
@@ -29,9 +29,6 @@ class InputParserSpec extends Specification{
     }
 
     def "throw exception if the input is empty"() {
-
-        setup:
-        InputParser inputParser = new InputParser()
 
         when:
         Order order = inputParser.parse("")
@@ -43,14 +40,15 @@ class InputParserSpec extends Specification{
 
     def "throw exception if the input is invalid"() {
 
-        setup:
-        InputParser inputParser = new InputParser()
-
         when:
         Order order = inputParser.parse("invalid:data")
 
         then:
         def e = thrown(Exception)
         e.message == "Input data is invalid"
+    }
+
+    def cleanup() {
+        inputParser = null
     }
 }
