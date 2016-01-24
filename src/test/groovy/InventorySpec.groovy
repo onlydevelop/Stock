@@ -1,24 +1,23 @@
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class InventorySpec extends Specification{
 
-    Inventory inventory
-
-    def setup() {
-        inventory = new Inventory()
-    }
-
     def "instance is created for Inventory"() {
+        setup:
+            Inventory inventory = new Inventory()
         expect:
             inventory != null
     }
 
-    def "placing 5 items from StoreB"() {
+    @Unroll
+    def "placing #input returns #result"(input, result) {
+        setup:
+            Inventory inventory = new Inventory()
         expect:
-            inventory.placeOrder("B:5") == "500:95:100"
-    }
-
-    def cleanup() {
-        inventory = null
+            inventory.placeOrder(input) == result
+        where:
+            input       | result
+            "B:5"       | "500:95:100"
     }
 }
