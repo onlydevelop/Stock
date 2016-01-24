@@ -1,4 +1,5 @@
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class InputParserSpec extends Specification{
 
@@ -8,44 +9,45 @@ class InputParserSpec extends Specification{
         inputParser = new InputParser()
     }
 
-    def "parse the input returning an Order object"() {
+    @Unroll
+    def "parse the input with #value returns Order object with #storeName and #orderQuantity"(value, storeName, orderQuantity) {
 
-        when:
-        Order order = inputParser.parse("B:5")
+        setup:
+            Order order = inputParser.parse("B:5")
 
-        then:
-        order.getStoreName() == "B"
-        order.getOrderQuantity() == 5
+        expect:
+            storeName == order.storeName
+            orderQuantity == order.orderQuantity
+
+        where:
+            value   | storeName | orderQuantity
+            "B:5"   | "B"       | 5
     }
 
-    def "throw exception if the input is null"() {
+    @Unroll
+    def "parsing the input with #value throws #exception saying #exceptionMessage"(value, exception, exceptionMessage) {
 
-        when:
-        Order order = inputParser.parse(null)
+        setup:
+            def e = getException(inputParser.&parse, value)
 
-        then:
-        def e = thrown(Exception)
-        e.message == "Input cannot be null or empty"
+        expect:
+            exception == e?.class
+            exceptionMessage == e?.message
+
+        where:
+            value           | exception    | exceptionMessage
+            null            | Exception    | "Input cannot be null or empty"
+            ""              | Exception    | "Input cannot be null or empty"
+            "invalid:data"  | Exception    | "Input data is invalid"
     }
 
-    def "throw exception if the input is empty"() {
-
-        when:
-        Order order = inputParser.parse("")
-
-        then:
-        def e = thrown(Exception)
-        e.message == "Input cannot be null or empty"
-    }
-
-    def "throw exception if the input is invalid"() {
-
-        when:
-        Order order = inputParser.parse("invalid:data")
-
-        then:
-        def e = thrown(Exception)
-        e.message == "Input data is invalid"
+    Exception getException(closure, ...args){
+        try{
+            closure.call(args)
+            return null
+        } catch(any) {
+            return any
+        }
     }
 
     def cleanup() {
