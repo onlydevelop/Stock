@@ -15,7 +15,7 @@ class InventorySpec extends Specification{
 
     def "placing 5 items from StoreB"() {
         expect:
-            inventory.placeOrder("B:5") == "5000:95:100"
+            inventory.placeOrder("B:5") == "500:95:100"
     }
 
     def cleanup() {
