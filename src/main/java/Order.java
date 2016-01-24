@@ -1,5 +1,10 @@
 public class Order {
 
+    public Order(String storeName, int orderQuantity) {
+        this.storeName = storeName;
+        this.orderQuantity = orderQuantity;
+    }
+
     public String getStoreName() {
         return storeName;
     }
