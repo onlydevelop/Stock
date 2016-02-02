@@ -20,5 +20,6 @@ class InventorySpec extends Specification{
             input       | result
             "B:5"       | "500:95:100"
             "A:30"      | "1500:100:70"
+            "B:50"      | "4500:100:50"
     }
 }
