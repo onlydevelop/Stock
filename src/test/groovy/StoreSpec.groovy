@@ -11,4 +11,29 @@ class StoreSpec extends Specification {
         store.itemCount == 100
         store.unitCost == 50
     }
+
+    def "reduce items from a Store, reduces number of items"() {
+        setup:
+        Store store = new Store("A", 100, 50)
+
+        when:
+        store.reduceItemCount(5)
+
+        then:
+        store.name == "A"
+        store.itemCount == 95
+        store.unitCost == 50
+    }
+
+    def "reduce more item from a Stores itemCount, throws exception"() {
+        setup:
+        Store store = new Store("A", 100, 50)
+
+        when:
+        store.reduceItemCount(101)
+
+        then:
+        def e = thrown(Exception)
+        e.message == "Insufficient items left in Store"
+    }
 }
