@@ -6,8 +6,9 @@ public class Inventory {
     public String placeOrder(String orderData) {
         try {
             Order order = new InputParser().parse(orderData);
-            float minimumCost = getMinimumCostStore(order).getOrderCost(order);
-            getMinimumCostStore(order).reduceItemCount(order.getOrderQuantity());
+            Store minimumCostStore = getMinimumCostStore(order);
+            float minimumCost = minimumCostStore.getOrderCost(order);
+            minimumCostStore.reduceItemCount(order.getOrderQuantity());
             return String.format("%d:%d:%d", (int)minimumCost, storeB.getItemCount(), storeA.getItemCount());
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
