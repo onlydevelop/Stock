@@ -3,9 +3,6 @@ public class Inventory {
     private final Store storeA = new Store("A", 100, 50);
     private final Store storeB = new Store("B", 100, 100);
 
-    private static final int STOCK_TRANSFER_BLOCK_SIZE = 10;
-    private static final int STOCK_TRANSFER_COST_PER_BLOCK = 400;
-
     public String placeOrder(String orderData) {
         try {
             Order order = new InputParser().parse(orderData);
@@ -18,8 +15,8 @@ public class Inventory {
     }
 
     private float getMinimumCost(Order order) throws Exception {
-        float minimumCostFromStoreA = getMinimumCostFromStore(order, "A");
-        float minimumCostFromStoreB = getMinimumCostFromStore(order, "B");
+        float minimumCostFromStoreA = storeA.getOrderCost(order);
+        float minimumCostFromStoreB = storeB.getOrderCost(order);
         float minimumCost = (minimumCostFromStoreA < minimumCostFromStoreB)
             ? minimumCostFromStoreA : minimumCostFromStoreB;
 
@@ -30,14 +27,5 @@ public class Inventory {
         }
 
         return minimumCost;
-    }
-
-    private float getMinimumCostFromStore(Order order, String fromStore) {
-        Store store = fromStore.equals("A") ? storeA : storeB;
-        float minimumCostFromStore = store.getUnitCost() * order.getOrderQuantity();
-        if(!order.getStoreName().equals(store.getName())) {
-            minimumCostFromStore += Math.ceil((float)order.getOrderQuantity() / STOCK_TRANSFER_BLOCK_SIZE) * STOCK_TRANSFER_COST_PER_BLOCK;
-        }
-        return minimumCostFromStore;
     }
 }
