@@ -38,4 +38,13 @@ public class Inventory {
 
         return String.format("%d:%d:%d", (int)minimumCost, storeB.getItemCount(), storeA.getItemCount());
     }
+
+    private float getMinimumCostFromStore(Order order, String fromStore) {
+        Store store = fromStore.equals("A") ? storeA : storeB;
+        float minimumCostFromStore = store.getUnitCost() * order.getOrderQuantity();
+        if(!order.getStoreName().equals(store.getName())) {
+            minimumCostFromStore += Math.ceil((float)order.getOrderQuantity() / STOCK_TRANSFER_BLOCK_SIZE) * STOCK_TRANSFER_COST_PER_BLOCK;
+        }
+        return minimumCostFromStore;
+    }
 }
