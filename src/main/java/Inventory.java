@@ -15,20 +15,14 @@ public class Inventory {
         try {
             Order order = new InputParser().parse(orderData);
 
-            minimumCostFromStoreA = storeA.getUnitCost() * order.getOrderQuantity();
-            minimumCostFromStoreB = storeB.getUnitCost() * order.getOrderQuantity();
-
-            if(order.getStoreName().equals("A")) {
-                minimumCostFromStoreB += Math.ceil((float)order.getOrderQuantity() / STOCK_TRANSFER_BLOCK_SIZE) * STOCK_TRANSFER_COST_PER_BLOCK;
-            } else {
-                minimumCostFromStoreA += Math.ceil((float)order.getOrderQuantity() / STOCK_TRANSFER_BLOCK_SIZE) * STOCK_TRANSFER_COST_PER_BLOCK;
-            }
-
+            minimumCostFromStoreA = getMinimumCostFromStore(order, "A");
+            minimumCostFromStoreB = getMinimumCostFromStore(order, "B");
+            minimumCost = (minimumCostFromStoreA < minimumCostFromStoreB)
+                ? minimumCostFromStoreA : minimumCostFromStoreB;
+            
             if(minimumCostFromStoreA < minimumCostFromStoreB) {
-                minimumCost = minimumCostFromStoreA;
                 storeA.reduceItemCount(order.getOrderQuantity());
             } else {
-                minimumCost = minimumCostFromStoreB;
                 storeB.reduceItemCount(order.getOrderQuantity());
             }
 
