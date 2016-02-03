@@ -28,4 +28,8 @@ public class Inventory {
             storeB.reduceItemCount(order.getOrderQuantity());
         }
     }
+
+    private Store getMinimumCostStore(Order order) {
+        return storeA.getOrderCost(order) < storeB.getOrderCost(order) ? storeA : storeB;
+    }
 }
