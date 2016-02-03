@@ -6,7 +6,7 @@ public class Inventory {
     private static final int STOCK_TRANSFER_BLOCK_SIZE = 10;
     private static final int STOCK_TRANSFER_COST_PER_BLOCK = 400;
 
-    String placeOrder(String orderData) {
+    public String placeOrder(String orderData) {
 
         float minimumCostFromStoreA = 0;
         float minimumCostFromStoreB = 0;
@@ -26,10 +26,10 @@ public class Inventory {
 
             if(minimumCostFromStoreA < minimumCostFromStoreB) {
                 minimumCost = minimumCostFromStoreA;
-                storeA.setItemCount(storeA.getItemCount() - order.getOrderQuantity());
+                storeA.reduceItemCount(order.getOrderQuantity());
             } else {
                 minimumCost = minimumCostFromStoreB;
-                storeB.setItemCount(storeB.getItemCount() - order.getOrderQuantity());
+                storeB.reduceItemCount(order.getOrderQuantity());
             }
 
         } catch (Exception e) {

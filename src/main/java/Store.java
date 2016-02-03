@@ -18,8 +18,11 @@ public class Store {
         return itemCount;
     }
 
-    public void setItemCount(int itemCount) {
-        this.itemCount = itemCount;
+    public void reduceItemCount(int lessCount) throws Exception {
+        if(this.itemCount - lessCount < 0) {
+            throw new Exception("Insufficient items left in Store");
+        }
+        this.itemCount -= lessCount;
     }
 
     public float getUnitCost() {
