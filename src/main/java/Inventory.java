@@ -7,6 +7,7 @@ public class Inventory {
         try {
             Order order = new InputParser().parse(orderData);
             float minimumCost = getMinimumCost(order);
+            reduceItemCount(order);
             return String.format("%d:%d:%d", (int)minimumCost, storeB.getItemCount(), storeA.getItemCount());
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -17,13 +18,14 @@ public class Inventory {
     private float getMinimumCost(Order order) throws Exception {
         float minimumCost = (storeA.getOrderCost(order) < storeB.getOrderCost(order))
             ? storeA.getOrderCost(order) : storeB.getOrderCost(order);
+        return minimumCost;
+    }
 
+    private void reduceItemCount(Order order) throws Exception {
         if(storeA.getOrderCost(order) < storeB.getOrderCost(order)) {
             storeA.reduceItemCount(order.getOrderQuantity());
         } else {
             storeB.reduceItemCount(order.getOrderQuantity());
         }
-
-        return minimumCost;
     }
 }
