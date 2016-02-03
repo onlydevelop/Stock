@@ -7,30 +7,29 @@ public class Inventory {
     private static final int STOCK_TRANSFER_COST_PER_BLOCK = 400;
 
     public String placeOrder(String orderData) {
-
-        float minimumCostFromStoreA = 0;
-        float minimumCostFromStoreB = 0;
-        float minimumCost = 0;
-
         try {
             Order order = new InputParser().parse(orderData);
-
-            minimumCostFromStoreA = getMinimumCostFromStore(order, "A");
-            minimumCostFromStoreB = getMinimumCostFromStore(order, "B");
-            minimumCost = (minimumCostFromStoreA < minimumCostFromStoreB)
-                ? minimumCostFromStoreA : minimumCostFromStoreB;
-            
-            if(minimumCostFromStoreA < minimumCostFromStoreB) {
-                storeA.reduceItemCount(order.getOrderQuantity());
-            } else {
-                storeB.reduceItemCount(order.getOrderQuantity());
-            }
-
+            float minimumCost = getMinimumCost(order);
+            return String.format("%d:%d:%d", (int)minimumCost, storeB.getItemCount(), storeA.getItemCount());
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
+        return "";
+    }
 
-        return String.format("%d:%d:%d", (int)minimumCost, storeB.getItemCount(), storeA.getItemCount());
+    private float getMinimumCost(Order order) throws Exception {
+        float minimumCostFromStoreA = getMinimumCostFromStore(order, "A");
+        float minimumCostFromStoreB = getMinimumCostFromStore(order, "B");
+        float minimumCost = (minimumCostFromStoreA < minimumCostFromStoreB)
+            ? minimumCostFromStoreA : minimumCostFromStoreB;
+
+        if(minimumCostFromStoreA < minimumCostFromStoreB) {
+            storeA.reduceItemCount(order.getOrderQuantity());
+        } else {
+            storeB.reduceItemCount(order.getOrderQuantity());
+        }
+
+        return minimumCost;
     }
 
     private float getMinimumCostFromStore(Order order, String fromStore) {

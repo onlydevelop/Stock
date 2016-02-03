@@ -40,4 +40,19 @@ class InventorySpec extends Specification{
         "B:50"      | "A"       | 4500
         "B:50"      | "B"       | 5000
     }
+
+    @Unroll
+    def "giving #input returns minimum cost as #minimumCost"(input, minimumCost) {
+        setup:
+        Inventory inventory = new Inventory()
+        Order order = new InputParser().parse(input);
+
+        expect:
+        inventory.getMinimumCost(order) == (int)minimumCost
+        where:
+        input       | minimumCost
+        "B:5"       | 500
+        "A:30"      | 1500
+        "B:50"      | 4500
+    }
 }
