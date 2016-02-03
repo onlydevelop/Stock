@@ -1,5 +1,8 @@
 public class Store {
 
+    private static final int STOCK_TRANSFER_BLOCK_SIZE = 10;
+    private static final int STOCK_TRANSFER_COST_PER_BLOCK = 400;
+
     private final String name;
     private int itemCount;
     private final float unitCost;
@@ -23,6 +26,14 @@ public class Store {
             throw new Exception("Insufficient items left in Store");
         }
         this.itemCount -= lessCount;
+    }
+
+    public float getOrderCost(Order order) {
+        float minimumCost = this.unitCost * order.getOrderQuantity();
+        if(!order.getStoreName().equals(this.name)) {
+            minimumCost += Math.ceil((float)order.getOrderQuantity() / STOCK_TRANSFER_BLOCK_SIZE) * STOCK_TRANSFER_COST_PER_BLOCK;
+        }
+        return minimumCost;
     }
 
     public float getUnitCost() {

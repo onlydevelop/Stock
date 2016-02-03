@@ -1,4 +1,5 @@
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class StoreSpec extends Specification {
 
@@ -35,5 +36,20 @@ class StoreSpec extends Specification {
         then:
         def e = thrown(Exception)
         e.message == "Insufficient items left in Store"
+    }
+
+    @Unroll
+    def "giving order #input returns minimum cost as #orderCost"(input, orderCost) {
+        setup:
+        Store store = new Store("A", 100, 50)
+        Order order = new InputParser().parse(input);
+
+        expect:
+        store.getOrderCost(order) == orderCost
+
+        where:
+        input       | orderCost
+        "A:5"       | 250
+        "B:5"       | 650
     }
 }
