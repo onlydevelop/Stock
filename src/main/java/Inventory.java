@@ -15,12 +15,10 @@ public class Inventory {
     }
 
     private float getMinimumCost(Order order) throws Exception {
-        float minimumCostFromStoreA = storeA.getOrderCost(order);
-        float minimumCostFromStoreB = storeB.getOrderCost(order);
-        float minimumCost = (minimumCostFromStoreA < minimumCostFromStoreB)
-            ? minimumCostFromStoreA : minimumCostFromStoreB;
+        float minimumCost = (storeA.getOrderCost(order) < storeB.getOrderCost(order))
+            ? storeA.getOrderCost(order) : storeB.getOrderCost(order);
 
-        if(minimumCostFromStoreA < minimumCostFromStoreB) {
+        if(storeA.getOrderCost(order) < storeB.getOrderCost(order)) {
             storeA.reduceItemCount(order.getOrderQuantity());
         } else {
             storeB.reduceItemCount(order.getOrderQuantity());
